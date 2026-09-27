@@ -1,53 +1,22 @@
-# ✨ About Me
+# ✦ About Me Card
 
-A personal "about me" site built with plain HTML, CSS and JavaScript. It needs no build step and has no dependencies, and you can customize all of it.
-
-- Hero section with a typewriter effect, an avatar with an animated ring and floating chips
-- About, Skills (with a scrolling marquee), Projects and Contact sections
-- Dark and light mode, plus 4 backgrounds (aurora, stars, grid, plain) and 4 font styles
-- A **🎨 customizer panel** for changing the accent color, mode, background, font, roundness and animations live
-- Fully responsive, and respects "reduce motion" settings
+A cute, customizable profile card for your Discord bio, in the style of straw.page. It's plain HTML, CSS and JS, with no build step.
 
 ## 🛠️ Make it yours
+Open **`config.js`** and edit your name, username, pronouns, pfp and banner (gifs work), status dot, badges, bio, "right now" list, likes, link buttons, socials (a Discord button copies your username), an optional music player and an optional "click to enter" screen.
 
-**All the content lives in [`config.js`](config.js).** Open it and change:
+To change the look, open the page and click the **🎨** button. You can pick the accent color, dark or light mode, the background (aurora, stars, hearts, grid, plain, or your own image), the font (modern, cute, pixel, serif, mono), glass or solid card, roundness, sparkle cursor and animations. When you like it, hit **Copy config** and paste it over the `theme` block in `config.js`.
 
-| What | Where in `config.js` |
-| --- | --- |
-| Name, greeting, typed roles, tagline | `name`, `greeting`, `roles`, `tagline` |
-| Profile picture | `avatar: "me.jpg"` (put the image next to `index.html`) |
-| Bio and fun facts | `about`, `facts` |
-| Skills | `skills` (groups of items) |
-| Projects | `projects` (emoji, title, description, tags, optional `link` and `image`) |
-| Email and socials | `email`, `socials` (github, x, instagram, youtube, discord, linkedin, twitch, tiktok, website…) |
-| Section names and titles, or hiding a section | `sections` (wrap words in `*stars*` to make them gradient) |
-| Default colors and look | `theme` |
+Put photos or songs next to `index.html` and point to them, e.g. `avatar: "pfp.gif"`.
 
-### Designing the look visually
-1. Open the site and click the **🎨** button (bottom right).
-2. Play with colors, backgrounds and fonts until you love it.
-3. Click **Copy config**, then paste the copied block over the `theme: { ... }` block in `config.js`.
+The link-preview text and image live in the `<meta>` tags at the top of `index.html`, and `preview.png` is the preview image.
 
-Set `showCustomizer: false` if you'd rather visitors didn't see the 🎨 button.
+## 🚀 Put it online (free)
+1. Upload these files to a GitHub repo.
+2. Go to **Settings → Pages**, choose **Deploy from a branch**, pick your branch and `/ (root)`, and hit **Save**.
+3. After about a minute it's live at `https://<your-username>.github.io/<repo-name>/`. Paste that link into your Discord **About Me** ♡
+
+No GitHub? You can also drag the folder onto https://app.netlify.com/drop to get a link instantly.
 
 ## 👀 Preview locally
-Open `index.html` in your browser. Or, for a local server:
-
-```bash
-python3 -m http.server 8000
-# then visit http://localhost:8000
-```
-
-## 🚀 Publish for free with GitHub Pages
-1. Push this repo to GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Source**, choose **Deploy from a branch**, then pick your branch and `/ (root)`.
-4. Your site will be live at `https://<your-username>.github.io/aboutme/` within a minute or so 🎉
-
-## 📁 Files
-```
-index.html   page structure
-config.js    ← your content and theme (edit this!)
-style.css    styles
-script.js    renders the config and powers the customizer
-```
+Double-click `index.html`, or run `python3 -m http.server 8000` and visit http://localhost:8000

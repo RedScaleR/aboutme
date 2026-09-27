@@ -1,16 +1,28 @@
 <!doctype html>
-<html lang="en" data-theme="dark" data-bg="aurora" data-font="modern" data-motion="on">
+<html lang="en" data-theme="dark" data-bg="aurora" data-font="modern" data-card="glass" data-motion="on">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About me</title>
-  <meta name="description" content="A little corner of the internet about me.">
-  <meta name="theme-color" content="#0b0a10">
+  <title>RedScaleR</title>
+  <meta name="description" content="developer · creator · always learning. come say hi ✦">
+  <meta name="theme-color" content="#ff3b5c">
+
+  <!-- Link preview (Discord, Twitter, etc.). Previews don't run JavaScript,
+       so these can't come from config.js. Edit them here. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="RedScaleR">
+  <meta property="og:title" content="RedScaleR ✦">
+  <meta property="og:description" content="developer · creator · always learning. come say hi ♡">
+  <meta property="og:url" content="https://redscaler.github.io/aboutme/">
+  <meta property="og:image" content="https://redscaler.github.io/aboutme/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" id="favicon" href="data:,">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Pixelify+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <script src="config.js"></script>
@@ -26,128 +38,76 @@
   </script>
 </head>
 <body>
-  <div class="progress" id="progress" aria-hidden="true"></div>
-
   <!-- background layers -->
   <div class="bg" aria-hidden="true">
+    <div class="bg-img"></div>
     <div class="blob b1"></div>
     <div class="blob b2"></div>
     <div class="blob b3"></div>
-    <canvas id="stars"></canvas>
     <div class="grid-bg"></div>
+    <canvas id="fx"></canvas>
     <div class="glow" id="glow"></div>
     <div class="grain"></div>
   </div>
 
-  <header class="nav" id="nav">
-    <a href="#home" class="logo" id="logo"></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about" data-section="about">About</a></li>
-      <li><a href="#skills" data-section="skills">Skills</a></li>
-      <li><a href="#projects" data-section="projects">Projects</a></li>
-      <li><a href="#contact" data-section="contact">Contact</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle light / dark mode">
-        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-      </button>
-      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-  </header>
+  <!-- optional "click to enter" screen -->
+  <div class="enter" id="enter" role="button" tabindex="0" hidden><span id="enterText"></span></div>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <div class="wrap hero-grid">
-        <div class="hero-text">
-          <div class="badge reveal" id="status"><span class="dot"></span><span></span></div>
-          <p class="greeting reveal" id="greeting" style="--d:.08s"></p>
-          <h1 class="name reveal" id="name" style="--d:.16s"></h1>
-          <p class="role reveal" style="--d:.24s"><span id="rolePrefix"></span><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></p>
-          <p class="tagline reveal" id="tagline" style="--d:.32s"></p>
-          <div class="actions reveal" style="--d:.4s">
-            <a href="#projects" class="btn btn-primary" id="btnPrimary"><span></span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a href="#contact" class="btn btn-ghost" id="btnSecondary"></a>
+  <main class="stage">
+    <div class="card-wrap" id="cardWrap">
+      <article class="card" id="card">
+        <div class="banner" id="banner"></div>
+
+        <div class="card-body">
+          <div class="head">
+            <div class="avatar-wrap">
+              <div class="avatar" id="avatar"></div>
+              <span class="status" id="status" role="img"></span>
+            </div>
+            <div class="badges" id="badges"></div>
           </div>
-        </div>
 
-        <div class="avatar-wrap reveal" style="--d:.2s">
-          <div class="avatar-ring soft"></div>
-          <div class="avatar-ring"></div>
-          <div class="avatar" id="avatar"></div>
-          <div class="float-chip chip-a" id="chipA"></div>
-          <div class="float-chip chip-b" id="chipB"></div>
-        </div>
-      </div>
-      <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
-    </section>
+          <h1 class="name rise" id="name" style="--d:.1s"></h1>
+          <div class="handle-row rise" style="--d:.15s">
+            <span id="username"></span>
+            <span class="pronouns" id="pronouns"></span>
+          </div>
+          <p class="role rise" id="roleLine" style="--d:.2s"><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></p>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="wrap">
-        <p class="eyebrow reveal"></p>
-        <h2 class="reveal"></h2>
-        <div class="about-grid">
-          <div class="about-text reveal" id="aboutText"></div>
-          <div class="facts" id="facts"></div>
-        </div>
-      </div>
-    </section>
+          <div class="inner rise" id="inner" style="--d:.25s">
+            <section class="block" id="aboutBlock">
+              <h2>About me</h2>
+              <p id="bio"></p>
+            </section>
+            <section class="block" id="nowBlock">
+              <h2>Right now</h2>
+              <ul class="now" id="now"></ul>
+            </section>
+            <section class="block" id="likesBlock">
+              <h2>I like</h2>
+              <ul class="chips" id="likes"></ul>
+            </section>
+          </div>
 
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="wrap">
-        <p class="eyebrow reveal"></p>
-        <h2 class="reveal"></h2>
-      </div>
-      <div class="marquee reveal" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
-      <div class="wrap">
-        <div class="skill-groups" id="skillGroups"></div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects">
-      <div class="wrap">
-        <p class="eyebrow reveal"></p>
-        <h2 class="reveal"></h2>
-        <div class="project-grid" id="projectGrid"></div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="wrap">
-        <div class="contact-card card reveal">
-          <p class="eyebrow center"></p>
-          <h2></h2>
-          <p class="contact-text" id="contactText"></p>
-          <div class="email-row" id="emailRow">
-            <a class="btn btn-primary" id="emailBtn" href="#">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <span id="emailLabel"></span>
-            </a>
-            <button class="icon-btn lg" id="copyEmail" aria-label="Copy email address" title="Copy email">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <div class="player rise" id="player" style="--d:.3s">
+            <button class="play" id="playBtn" aria-label="Play music">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></svg>
             </button>
+            <div class="track">
+              <div class="track-title"><span id="trackTitle"></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="track-artist" id="trackArtist"></div>
+              <div class="bar" id="bar"><div class="bar-fill" id="barFill"></div></div>
+            </div>
           </div>
-          <div class="socials" id="socials"></div>
-        </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <span id="footerText"></span>
-      <a href="#home" class="to-top">Back to top ↑</a>
+          <nav class="links rise" id="links" style="--d:.35s" aria-label="Links"></nav>
+          <div class="socials rise" id="socials" style="--d:.4s"></div>
+        </div>
+      </article>
     </div>
-  </footer>
+    <p class="footer" id="footer"></p>
+  </main>
 
   <!-- CUSTOMIZER -->
   <button class="fab" id="fab" aria-label="Customize the look" aria-expanded="false" aria-controls="panel">
@@ -156,7 +116,7 @@
 
   <aside class="panel" id="panel" role="dialog" aria-label="Customize the look">
     <div class="panel-head">
-      <h3>Make it yours ✨</h3>
+      <h3>Make it yours ✦</h3>
       <button class="icon-btn sm" id="panelClose" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
@@ -189,37 +149,52 @@
 
     <div class="field">
       <span class="field-label">Background</span>
-      <div class="seg">
+      <div class="seg grid3">
         <button data-set="background:aurora">Aurora</button>
         <button data-set="background:stars">Stars</button>
+        <button data-set="background:hearts">Hearts</button>
         <button data-set="background:grid">Grid</button>
         <button data-set="background:plain">Plain</button>
       </div>
+      <input class="text-input" type="url" id="bgImage" placeholder="…or paste an image / gif link" spellcheck="false">
     </div>
 
     <div class="field">
       <span class="field-label">Font</span>
-      <div class="seg">
+      <div class="seg grid3">
         <button data-set="font:modern" style="font-family:Inter,sans-serif">Modern</button>
-        <button data-set="font:elegant" style="font-family:'Playfair Display',serif">Elegant</button>
+        <button data-set="font:cute" style="font-family:Fredoka,sans-serif">Cute</button>
+        <button data-set="font:pixel" style="font-family:'Pixelify Sans',monospace">Pixel</button>
+        <button data-set="font:serif" style="font-family:'Playfair Display',serif">Serif</button>
         <button data-set="font:mono" style="font-family:'JetBrains Mono',monospace">Mono</button>
-        <button data-set="font:rounded" style="font-family:Nunito,sans-serif">Rounded</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Card</span>
+      <div class="seg">
+        <button data-set="card:glass">Glass</button>
+        <button data-set="card:solid">Solid</button>
       </div>
     </div>
 
     <div class="field">
       <label class="field-label" for="radius">Roundness <output id="radiusVal"></output></label>
-      <input type="range" id="radius" min="0" max="28" step="1">
+      <input type="range" id="radius" min="0" max="32" step="1">
     </div>
 
+    <label class="field switch-row">
+      <span class="field-label">Sparkle cursor</span>
+      <input type="checkbox" class="switch" id="sparkles">
+    </label>
     <label class="field switch-row">
       <span class="field-label">Animations</span>
       <input type="checkbox" class="switch" id="motion">
     </label>
 
     <div class="panel-actions">
-      <button class="btn btn-ghost sm" id="resetTheme">Reset</button>
-      <button class="btn btn-primary sm" id="copyTheme">Copy config</button>
+      <button class="btn btn-ghost" id="resetTheme">Reset</button>
+      <button class="btn btn-primary" id="copyTheme">Copy config</button>
     </div>
     <p class="panel-note">Your picks are saved in this browser. Hit <b>Copy config</b> and paste it over the <code>theme</code> block in <code>config.js</code> to make it the default for everyone.</p>
   </aside>

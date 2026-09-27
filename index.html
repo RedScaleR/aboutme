@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-bg="aurora" data-font="modern" data-motion="on">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About me</title>
+  <meta name="description" content="A little corner of the internet about me.">
+  <meta name="theme-color" content="#0b0a10">
+  <link rel="icon" id="favicon" href="data:,">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="config.js"></script>
+  <script>
+    /* pick light/dark before first paint so there's no flash */
+    (function () {
+      try {
+        var t = Object.assign({}, (window.SITE_CONFIG || {}).theme, JSON.parse(localStorage.getItem("aboutme:theme") || "{}"));
+        var dark = t.mode === "auto" ? matchMedia("(prefers-color-scheme: dark)").matches : t.mode !== "light";
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- background layers -->
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <canvas id="stars"></canvas>
+    <div class="grid-bg"></div>
+    <div class="glow" id="glow"></div>
+    <div class="grain"></div>
+  </div>
+
+  <header class="nav" id="nav">
+    <a href="#home" class="logo" id="logo"></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-section="about">About</a></li>
+      <li><a href="#skills" data-section="skills">Skills</a></li>
+      <li><a href="#projects" data-section="projects">Projects</a></li>
+      <li><a href="#contact" data-section="contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle light / dark mode">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <div class="badge reveal" id="status"><span class="dot"></span><span></span></div>
+          <p class="greeting reveal" id="greeting" style="--d:.08s"></p>
+          <h1 class="name reveal" id="name" style="--d:.16s"></h1>
+          <p class="role reveal" style="--d:.24s"><span id="rolePrefix"></span><span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+          <p class="tagline reveal" id="tagline" style="--d:.32s"></p>
+          <div class="actions reveal" style="--d:.4s">
+            <a href="#projects" class="btn btn-primary" id="btnPrimary"><span></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#contact" class="btn btn-ghost" id="btnSecondary"></a>
+          </div>
+        </div>
+
+        <div class="avatar-wrap reveal" style="--d:.2s">
+          <div class="avatar-ring soft"></div>
+          <div class="avatar-ring"></div>
+          <div class="avatar" id="avatar"></div>
+          <div class="float-chip chip-a" id="chipA"></div>
+          <div class="float-chip chip-b" id="chipB"></div>
+        </div>
+      </div>
+      <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <p class="eyebrow reveal"></p>
+        <h2 class="reveal"></h2>
+        <div class="about-grid">
+          <div class="about-text reveal" id="aboutText"></div>
+          <div class="facts" id="facts"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="wrap">
+        <p class="eyebrow reveal"></p>
+        <h2 class="reveal"></h2>
+      </div>
+      <div class="marquee reveal" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+      <div class="wrap">
+        <div class="skill-groups" id="skillGroups"></div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="wrap">
+        <p class="eyebrow reveal"></p>
+        <h2 class="reveal"></h2>
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact-card card reveal">
+          <p class="eyebrow center"></p>
+          <h2></h2>
+          <p class="contact-text" id="contactText"></p>
+          <div class="email-row" id="emailRow">
+            <a class="btn btn-primary" id="emailBtn" href="#">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span id="emailLabel"></span>
+            </a>
+            <button class="icon-btn lg" id="copyEmail" aria-label="Copy email address" title="Copy email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+          </div>
+          <div class="socials" id="socials"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span id="footerText"></span>
+      <a href="#home" class="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- CUSTOMIZER -->
+  <button class="fab" id="fab" aria-label="Customize the look" aria-expanded="false" aria-controls="panel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1" fill="currentColor"/><circle cx="17.5" cy="10.5" r="1" fill="currentColor"/><circle cx="8.5" cy="7.5" r="1" fill="currentColor"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/></svg>
+  </button>
+
+  <aside class="panel" id="panel" role="dialog" aria-label="Customize the look">
+    <div class="panel-head">
+      <h3>Make it yours ✨</h3>
+      <button class="icon-btn sm" id="panelClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Accent color</span>
+      <div class="swatches">
+        <button class="swatch" style="--c:#ff3b5c" data-set="accent:#ff3b5c" aria-label="Crimson" title="Crimson"></button>
+        <button class="swatch" style="--c:#ff6a3d" data-set="accent:#ff6a3d" aria-label="Sunset" title="Sunset"></button>
+        <button class="swatch" style="--c:#f5a524" data-set="accent:#f5a524" aria-label="Gold" title="Gold"></button>
+        <button class="swatch" style="--c:#10c9a0" data-set="accent:#10c9a0" aria-label="Mint" title="Mint"></button>
+        <button class="swatch" style="--c:#3b9cff" data-set="accent:#3b9cff" aria-label="Sky" title="Sky"></button>
+        <button class="swatch" style="--c:#8b5cf6" data-set="accent:#8b5cf6" aria-label="Violet" title="Violet"></button>
+        <button class="swatch" style="--c:#f0529c" data-set="accent:#f0529c" aria-label="Rose" title="Rose"></button>
+        <label class="swatch custom" title="Pick any color" id="customSwatch">
+          <input type="color" id="customColor" aria-label="Custom accent color">
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Mode</span>
+      <div class="seg">
+        <button data-set="mode:dark">Dark</button>
+        <button data-set="mode:light">Light</button>
+        <button data-set="mode:auto">Auto</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Background</span>
+      <div class="seg">
+        <button data-set="background:aurora">Aurora</button>
+        <button data-set="background:stars">Stars</button>
+        <button data-set="background:grid">Grid</button>
+        <button data-set="background:plain">Plain</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Font</span>
+      <div class="seg">
+        <button data-set="font:modern" style="font-family:Inter,sans-serif">Modern</button>
+        <button data-set="font:elegant" style="font-family:'Playfair Display',serif">Elegant</button>
+        <button data-set="font:mono" style="font-family:'JetBrains Mono',monospace">Mono</button>
+        <button data-set="font:rounded" style="font-family:Nunito,sans-serif">Rounded</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="radius">Roundness <output id="radiusVal"></output></label>
+      <input type="range" id="radius" min="0" max="28" step="1">
+    </div>
+
+    <label class="field switch-row">
+      <span class="field-label">Animations</span>
+      <input type="checkbox" class="switch" id="motion">
+    </label>
+
+    <div class="panel-actions">
+      <button class="btn btn-ghost sm" id="resetTheme">Reset</button>
+      <button class="btn btn-primary sm" id="copyTheme">Copy config</button>
+    </div>
+    <p class="panel-note">Your picks are saved in this browser. Hit <b>Copy config</b> and paste it over the <code>theme</code> block in <code>config.js</code> to make it the default for everyone.</p>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
